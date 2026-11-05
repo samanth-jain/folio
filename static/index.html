@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f5">
+    <title>Loan Desk — Underwriting workspace</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="Loan Desk home">
+          <span class="brand-mark"><span></span><span></span><span></span></span>
+          <span class="brand-name">folio<span class="brand-dot">.</span></span>
+        </a>
+        <div class="workspace-label">WORKSPACE</div>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-link active" data-view="overview"><span class="nav-icon">◫</span>Overview</button>
+          <button class="nav-link" data-view="applications"><span class="nav-icon">▤</span>Applications<span class="nav-count" id="nav-count">0</span></button>
+          <button class="nav-link" data-view="documents"><span class="nav-icon">▧</span>Documents</button>
+                    <button class="nav-link" data-view="mcp"><span class="nav-icon">✳</span>Connect Claude (MCP)</button>        </nav>
+        <div class="sidebar-bottom">
+          <div class="sidebar-card">
+            <div class="sidebar-card-icon">✳</div>
+            <div>
+              <strong>Claude connected?</strong>
+              <p>Let Claude organize your next application.</p>
+            </div>
+            <button class="sidebar-setup" data-view="mcp">Set up MCP <span>↗</span></button>
+          </div>
+          <div class="profile">
+            <div class="avatar avatar-navy">AR</div>
+            <div class="profile-copy"><strong id="profile-name">Reviewer</strong><span>Review team</span></div>
+            <button class="signout" id="signout">Sign out</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><i>/</i><strong id="crumb">Overview</strong></div>
+          <div class="topbar-actions">
+            <span class="connection"><span class="online-dot"></span>All changes saved</span>
+            <button class="icon-button" aria-label="Notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notification-dot"></span></button>
+            <div class="avatar avatar-green">AR</div>
+          </div>
+        </header>
+
+        <div class="content">
+          <section class="page-heading">
+            <div>
+              <div class="eyebrow" id="date-label">LENDING OPERATIONS</div>
+              <h1 id="page-title">Underwriting desk</h1>
+              <p id="page-subtitle">A clear view of every application, from first document to final review.</p>
+            </div>
+            <button class="primary-button" id="new-application"><span class="plus">+</span> New application</button>
+          </section>
+
+          <section class="metrics" data-page="overview" aria-label="Application metrics">
+            <article class="metric-card">
+              <div class="metric-heading"><span>Total applications</span><span class="metric-icon soft-blue">▤</span></div>
+              <div class="metric-value" id="metric-total">—</div>
+              <div class="metric-foot"><span class="metric-dot blue"></span>Across all review stages</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>In review</span><span class="metric-icon soft-teal">⌕</span></div>
+              <div class="metric-value" id="metric-review">—</div>
+              <div class="metric-foot"><span class="metric-dot teal"></span>Active auditor queue</div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading">              <span>Flagged cases</span><span class="metric-icon soft-amber">⚑</span></div>
+              <div class="metric-value" id="metric-attention">—</div>
+                            <div class="metric-foot"><span class="metric-dot amber"></span><span id="metric-attention-foot">Flags to review</span></div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-heading"><span>Documents filed</span><span class="metric-icon soft-violet">▧</span></div>
+              <div class="metric-value" id="metric-docs">—</div>
+              <div class="metric-foot"><span class="metric-dot violet"></span>Organized in case files</div>
+            </article>
+          </section>
+
+          <section class="work-grid" data-page="overview">
+            <article class="panel applications-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Recent applications</h2>
+                  <p>The five most recently updated cases.</p>
+                </div>
+                <button class="text-button" data-view="applications">View all <span>→</span></button>
+              </div>
+              <div class="pipeline" id="pipeline" aria-label="Pipeline by stage"></div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>APPLICANT</th><th>LOAN TYPE</th><th>AMOUNT</th><th>STAGE</th><th>UPDATED</th></tr></thead>
+                  <tbody id="recent-rows"></tbody>
+                </table>
+                <div class="empty-state hidden" id="recent-empty"><div class="empty-icon">⌕</div><strong>No applications yet</strong><p>Add one, or ask Claude to create a case.</p></div>
+              </div>
+            </article>
+
+            <aside class="side-stack">
+              <article class="panel queue-panel">
+                <div class="panel-heading queue-heading">
+                  <div><h2>Review queue</h2><p>Cases that need a human review.</p></div>
+                  <span class="queue-total" id="queue-total">0</span>
+                </div>
+                <div class="queue-list" id="queue-list"></div>
+                <button class="queue-link" data-view="applications">Open application queue <span>→</span></button>
+              </article>
+              <article class="panel checklist-panel">
+                <div class="checklist-title">
+                  <span class="checklist-icon">✳</span>
+                  <div><h2>Files, finally in order.</h2><p>One place for every case document.</p></div>
+                </div>
+                <div class="category-preview" id="category-preview"></div>
+                <button class="checklist-link" data-view="documents">Browse case documents <span>→</span></button>
+              </article>
+            </aside>
+          </section>
+
+          <section class="panel" data-page="applications">
+            <div class="stage-tabs" id="stage-tabs" role="tablist" aria-label="Filter by stage"></div>
+            <div class="table-toolbar">
+              <label class="search-box">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+                <input id="search" type="search" placeholder="Search applicants, city, loan type or ID..." autocomplete="off">
+                <span class="shortcut">Ctrl K</span>
+              </label>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>APPLICANT</th><th>LOAN TYPE</th><th>AMOUNT</th><th>MONTHLY INCOME</th><th>CREDIT SCORE</th><th>DOCUMENTS</th><th>STAGE</th><th>UPDATED</th></tr></thead>
+                <tbody id="application-rows"></tbody>
+              </table>
+              <div class="empty-state hidden" id="empty-state"><div class="empty-icon">⌕</div><strong>No applications found</strong><p>Try another stage or search, or add a new application.</p></div>
+            </div>
+            <div class="table-footer"><span id="table-count">Loading applications...</span><span class="footer-live"><i></i> Live workspace</span></div>
+          </section>
+
+          <section class="panel" data-page="documents">
+            <div class="stage-tabs" id="category-tabs" role="tablist" aria-label="Filter by category"></div>
+            <div class="table-toolbar">
+              <label class="search-box">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+                <input id="doc-search" type="search" placeholder="Search by file name, applicant or case ID..." autocomplete="off">
+              </label>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>FILE</th><th>CATEGORY</th><th>APPLICANT</th><th>SIZE</th><th>ADDED</th><th></th></tr></thead>
+                <tbody id="document-rows"></tbody>
+              </table>
+              <div class="empty-state hidden" id="doc-empty"><div class="empty-icon">▧</div><strong>No documents found</strong><p>Upload files inside an application, or ask Claude to register them.</p></div>
+            </div>
+            <div class="table-footer"><span id="doc-count">Loading documents...</span><span class="footer-live"><i></i> Live workspace</span></div>
+          </section>
+
+          <section class="mcp-view hidden" data-page="mcp" id="mcp-view">
+            <div class="mcp-intro panel">
+              <div class="mcp-icon">✳</div>
+              <div class="eyebrow">YOUR CLAUDE, YOUR WORKFLOW</div>
+              <h2>Let Claude handle the busywork.</h2>
+              <p>Connect your own Claude to Folio. Ask it to create a case, update applicant details, or organize the document checklist. Your data stays in this workspace; there are no AI keys or AI calls here.</p>
+            </div>
+            <div class="panel mcp-steps">
+              <div class="panel-heading"><div><h2>Connect with MCP</h2><p>Paste this private URL into Claude's custom connector settings. Anyone with the link can edit cases, so keep it secret.</p></div><span class="mcp-status"><i></i> Ready to connect</span></div>
+              <div class="endpoint-row"><div><span>SERVER ENDPOINT</span><code id="mcp-endpoint">http://localhost:8000/mcp</code></div><button class="secondary-button" id="copy-endpoint">Copy URL</button></div>
+              <div class="steps-grid">
+                <div><b>01</b><strong>Deploy Folio</strong><p>Host this app on a Python-capable service with a persistent data volume.</p></div>
+                <div><b>02</b><strong>Add a connector</strong><p>In Claude, open Settings → Connectors → Add a custom connector and paste the HTTPS endpoint.</p></div>
+                <div><b>03</b><strong>Ask Claude</strong><p>“Create a case for Priya Shah for a ₹4 lakh personal loan.” Review and edit it here.</p></div>
+              </div>
+              <div class="tools-list"><strong>Available actions</strong><span>create application</span><span>search cases</span><span>view case &amp; documents</span><span>update review details</span><span>register document</span></div>
+            </div>
+            <div class="notice"><span>i</span><p><strong>Human review stays in control.</strong> Folio stores and organizes application records; it does not assess creditworthiness, verify documents, or approve loans automatically. Don't upload real borrower data to this demo.</p></div>
+          </section>
+
+          <footer class="page-footer"><span>Folio · Underwriting workspace</span><span>Built for clear, human-led review <i>✳</i></span></footer>
+        </div>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop hidden" id="drawer-backdrop">
+      <aside class="drawer" id="drawer" aria-label="Application details" aria-modal="true" role="dialog"></aside>
+    </div>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in — Folio</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body class="login-body">
+    <main class="login-card">
+      <div class="brand login-brand">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span class="brand-name">folio<span class="brand-dot">.</span></span>
+      </div>
+      <h1>Welcome back</h1>
+      <p class="login-sub">Sign in to the underwriting workspace.</p>
+      <form id="login-form" class="login-form">
+        <div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" required autofocus></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <p class="form-error hidden" id="login-error" role="alert"></p>
+        <button class="primary-button login-submit" type="submit">Sign in</button>
+      </form>
+    </main>
+    <script src="/static/login.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+# Folio uses only the Python 3.10+ standard library; no third-party packages are required.
+# Add pinned dependencies here if you later introduce any (e.g. a production WSGI server).
